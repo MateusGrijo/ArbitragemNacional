@@ -1,0 +1,10 @@
+{  
+   "bitcointrade_secret":"U2FsdGVkX19dI9sUsAUOt8+4qExvqU2nMtkGStyOg0aiQswXX1sXstBlUZ5MeWoN",
+   "bitcointrade_fee":0.5,
+   "braziliex_key":"5806509b4957cbbcf4014f0d2384ab48fab834be576242d0e5260fdaab8e414508a623e5736eb4fc979645ecf319fb5664eba8de5dfd1ded1db575a65356a6e6",
+   "braziliex_secret":"175164a6aa412058433d25c8ace070fc39479f74b8dc02591961bfb2f181c7d90749a1af47b8e483c01e543bdaf7c8cb75430b171c2b89fc468f12a1fbb7a012",
+   "braziliex_fee":0.5,
+   "arbitrage_amount":0.001,
+   "arbitrage_percent":1,
+   "sleep_default":1000,
+}
