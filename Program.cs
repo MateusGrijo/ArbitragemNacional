@@ -125,12 +125,11 @@ class Program
         try
         {
 
-
             EntryArbitrage entryBraziliexBitCointrade = new EntryArbitrage();
             entryBraziliexBitCointrade.exchangeBuy = new ExchangeBraziliex();
             entryBraziliexBitCointrade.pairBuy = "btc_brl";
             entryBraziliexBitCointrade.exchangeSell = new ExchangeBitcoinTrade();
-            entryBraziliexBitCointrade.pairSell = "BRLBTC";
+            entryBraziliexBitCointrade.pairSell = "BTC";
             entryBraziliexBitCointrade.sleep = int.Parse(Program.jConfig["sleep_default"].ToString()); ;
             entryBraziliexBitCointrade.perc = decimal.Parse(Program.jConfig["arbitrage_percent"].ToString()); ;
             entryBraziliexBitCointrade.amount = decimal.Parse(Program.jConfig["arbitrage_amount"].ToString());
@@ -140,7 +139,7 @@ class Program
 
             EntryArbitrage entryBitCointradeBraziliex = new EntryArbitrage();
             entryBitCointradeBraziliex.exchangeBuy = new ExchangeBitcoinTrade();
-            entryBitCointradeBraziliex.pairBuy = "BRLBTC";
+            entryBitCointradeBraziliex.pairBuy = "BTC";
             entryBitCointradeBraziliex.exchangeSell = new ExchangeBraziliex();
             entryBitCointradeBraziliex.pairSell = "btc_brl";
             entryBitCointradeBraziliex.sleep = int.Parse(Program.jConfig["sleep_default"].ToString());
@@ -171,9 +170,10 @@ class Program
 
         try
         {
+
             String jsonConfig = System.IO.File.ReadAllText(location + "key.txt");
             jConfig = (JContainer)JsonConvert.DeserializeObject(jsonConfig, (typeof(JContainer)));
-            
+
             arbitrageHFT();
 
         }

@@ -19,6 +19,7 @@ public class ExchangeBitcoinTrade : ExchangeBase, IExchange
     public ExchangeBitcoinTrade()
     {
         this.urlTicker = "https://bitcointrade.com.br";
+        this.key = Program.jConfig["bitcointrade_key"].ToString();
         this.secret = Program.jConfig["bitcointrade_secret"].ToString();
         this.lockQuantity = false;
         this.fee = decimal.Parse( Program.jConfig["bitcointrade_fee"].ToString());
@@ -47,7 +48,7 @@ public class ExchangeBitcoinTrade : ExchangeBase, IExchange
     {
 
         ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-        var client = new RestClient("https://api.bitcointrade.com.br/v2/");
+        var client = new RestClient("https://api.bitcointrade.com.br/v1/");
 
 
         var request = new RestRequest("/wallets/balance", Method.GET);
@@ -70,7 +71,7 @@ public class ExchangeBitcoinTrade : ExchangeBase, IExchange
 
         try
         {
-            String json = Http.get("https://api.bitcointrade.com.br/v2/public/BRLBTC/ticker");
+            String json = Http.get("https://api.bitcointrade.com.br/v1/public/BTC/ticker");
 
             JContainer j = (JContainer)JsonConvert.DeserializeObject(json, (typeof(JContainer)));
 
@@ -90,7 +91,7 @@ public class ExchangeBitcoinTrade : ExchangeBase, IExchange
         try
         {
 
-            String json = Http.get("https://api.bitcointrade.com.br/v2/public/BRLBTC/orders");
+            String json = Http.get("https://api.bitcointrade.com.br/v1/public/BTC/orders");
             JContainer jCointaner = (JContainer)JsonConvert.DeserializeObject(json, (typeof(JContainer)));
 
 
@@ -139,7 +140,7 @@ public class ExchangeBitcoinTrade : ExchangeBase, IExchange
         try
         {
 
-            String json = Http.get("https://api.bitcointrade.com.br/v2/public/BRLBTC/orders");
+            String json = Http.get("https://api.bitcointrade.com.br/v1/public/BTC/orders");
             JContainer jCointaner = (JContainer)JsonConvert.DeserializeObject(json, (typeof(JContainer)));
 
 
@@ -200,11 +201,11 @@ public class ExchangeBitcoinTrade : ExchangeBase, IExchange
             Operation operation = new Operation();
 
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-            var request = (HttpWebRequest)WebRequest.Create("https://api.bitcointrade.com.br/v2/" + "market/create_order");
+            var request = (HttpWebRequest)WebRequest.Create("https://api.bitcointrade.com.br/v1/" + "market/create_order");
 
 
 
-            String parameters = "{\"pair\":\"BRLBTC\",\"amount\": " + amount.ToString().Replace(",", ".") + ",\"type\": \"" + type + "\",\"subtype\": \"limited\",\"unit_price\": " + Convert.ToString(price).Replace(",", ".") + "}";
+            String parameters = "{\"currency\":\"BTC\",\"amount\": " + amount.ToString().Replace(",", ".") + ",\"type\": \"" + type + "\",\"subtype\": \"limited\",\"unit_price\": " + Convert.ToString(price).Replace(",", ".") + "}";
             var data = Encoding.ASCII.GetBytes(parameters);
             request.Headers["Authorization"] = "ApiToken " + this.getSecret();
             request.Method = "POST";

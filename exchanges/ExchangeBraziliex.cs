@@ -21,7 +21,7 @@ public class ExchangeBraziliex : ExchangeBase, IExchange
         this.key = Program.jConfig["braziliex_key"].ToString();
         this.secret = Program.jConfig["braziliex_secret"].ToString();
         this.lockQuantity = false;
-        this.fee = decimal.Parse(Program.jConfig["braziliex_fee"].ToString());
+        this.fee = decimal.Parse(Program.jConfig["bitcointrade_fee"].ToString());
     }
 
     public decimal getFee()
@@ -46,9 +46,9 @@ public class ExchangeBraziliex : ExchangeBase, IExchange
     public string getBalances()
     {
         String json = post("https://braziliex.com/api/v1/private", "command=balance", this.key, this.secret);
-        JContainer jContainer = (JContainer)JsonConvert.DeserializeObject(json, (typeof(JContainer)));
+        JContainer jContainer = (JContainer)JsonConvert.DeserializeObject( json , (typeof(JContainer)));
 
-        balance_btc = decimal.Parse(jContainer["balance"]["btc"].ToString().Replace(".", ","));
+        balance_btc = decimal.Parse(jContainer["balance"]["btc"].ToString().Replace(".",","));
         balance_usdt = decimal.Parse(jContainer["balance"]["brl"].ToString().Replace(".", ","));
 
         return json;
@@ -183,7 +183,7 @@ public class ExchangeBraziliex : ExchangeBase, IExchange
         this.dataSource = (Newtonsoft.Json.Linq.JContainer)JsonConvert.DeserializeObject(json);
     }
 
-    public Operation order(string type, string pair, decimal amount, decimal price, bool lockQuantity)
+    public  Operation  order(string type, string pair, decimal amount, decimal price, bool lockQuantity)
     {
         Task.Factory.StartNew(() =>
         {
@@ -212,8 +212,8 @@ public class ExchangeBraziliex : ExchangeBase, IExchange
             String json = post("https://braziliex.com/api/v1/private", "command=" + type + "&market=" + pair + "&amount=" + amountAsString.ToString().Replace(",", ".") + "&price=" + price.ToString().Replace(",", "."), this.key, this.secret);
             operation.json = json;
 
-
-            if (json.Trim().ToLower().IndexOf("error") >= 0 || json.IndexOf("Not enough") >= 0)
+            
+            if (json.Trim().ToLower().IndexOf("error") >= 0 || json.IndexOf("Not enough") >= 0 )
             {
                 operation.success = false;
                 Logger.log("Problemas! " + json);
